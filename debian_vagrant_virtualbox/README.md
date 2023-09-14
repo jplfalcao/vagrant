@@ -23,22 +23,29 @@ $ chmod u+x debian-default.sh
 
 A Box utiliza foi a [debian/buster64](https://app.vagrantup.com/debian/boxes/buster64).
 
-> Utilize um editor de texto de sua prefência para editar o arquivo Vagrantfile.
+> Utilize um editor de texto de sua prefência para editar o arquivo `Vagrantfile`.
 ### Comandos utilizados
 
-Cria, dentro do diretório atual, o arquivo Vagrantfile e especifica a box que será utilizada:
+Cria, dentro do diretório atual, o arquivo `Vagrantfile` e especifica a box que será utilizada:
 
 ```
 $ vagrant init -m debian/buster64
 ```
 
-Cria e configura o ambiente, a partir do Vagrantfile:
+Cria e configura o ambiente, a partir do `Vagrantfile`:
 
 ```
 $ vagrant up
 ```
 
 Caso deseje utilizar outro provider, utilize o parâmetro `--provider=nome_do_provider`.
+
+
+Se realizar alguma alteração no arquivo `Vagrantfile`, **durante a execução das VMs**, utilize:
+
+```
+$ vagrant reload
+```
 
 Verifica o estado das máquinas:
 
@@ -58,7 +65,7 @@ Desliga as máquinas em execução:
 $ vagrant halt
 ```
 
-Interrompe e destŕoi todas as máquinas em execução:
+Interrompe e destrói todas as máquinas em execução:
 
 ```
 $ vagrant destroy
