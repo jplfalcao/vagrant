@@ -1,39 +1,40 @@
 # Autor: João PauLo Falcão
 # Github: https://github.com/jplfalcao
 # Data de criação: 02/09/2023
-# Data de modificação:
-# Versão: 1.0
+# Data de modificação: 14/09/2023
+# Versão: 1.1
 
 
+# Configura o Vagrant para utilizar a versão "2" de sua API.
 Vagrant.configure("2") do |config|
-# Configura o Vagrant para utilizar a versão "2" de sua API.	
-	(1..4).each do |var_temp|
 	# Cria um loop (de 1 a 4) que armazena, o valor da iteração, na variável "var_temp".
-	  config.vm.define "debian0#{var_temp}" do |debian|
-	  # Atribui o nome, a "var_temp", que será utilizado nas VMs.
-		debian.vm.box_check_update = true
-		# Verifica se há nova versão da box, antes de criar as VMs.
-		debian.vm.box = "debian/buster64"
-		# Box utilizada para criar as VMs.
-		debian.vm.hostname = "debian0#{var_temp}"
-		# Define o hostname das VMs.
-		debian.vm.network "private_network", ip: "192.168.56.10#{var_temp}"
-		# Configura uma rede privada e atribui IP fixo as VMs.
-		debian.vm.synced_folder ".", "/vagrant"
-		# Sincroniza o diretório atual com o diretório "/vargarnt" das VMs.
-		debian.vm.provision "shell", path: "debian-default.sh", privileged: true
-		# Provisiona as VMs com o script shell "debian-default.sh".
-		# O parâmetro "privileged" informa ao Vagrant que o script será 
-		# executado com privilégios de root (sudo).
-		debian.vm.provider "virtualbox" do |vb|
-		# Define o VirtualBox como provider.
-		  vb.name = "debian0#{var_temp}"
-		  # Define o nome das VMs (no VirtualBox).
-		  vb.memory = "512"
-		  # Define a quantidade de memória RAM das VMs.
-		  vb.cpus = "1"
-		  # Define a quantidade de CPUs das VMs.
-		end
-	  end
+	(1..4).each do |var_temp|
+		# Atribui o nome, a "var_temp", que será utilizado nas VMs. 	
+		config.vm.define "debian0#{var_temp}" do |debian|
+			# Verifica se há uma nova versão da box, antes de criar as VMs.
+			debian.vm.box_check_update = true
+			# Box utilizada para criar as VMs.
+			debian.vm.box = "debian/buster64"
+			# Define o hostname das VMs.
+			debian.vm.hostname = "debian0#{var_temp}"
+			# Configura uma rede privada e atribui IP fixo as VMs.
+			debian.vm.network "private_network", ip: "192.168.56.10#{var_temp}"
+			# Monta um compartilhamento do diretório atual, no host ("."), com
+			# o diretório a ser montado no guest ("/vagrant").
+			debian.vm.synced_folder ".", "/vagrant", disabled: false
+			# Provisiona as VMs com o script shell "debian-default.sh".
+			# O parâmetro "privileged" informa ao Vagrant que o script será 
+			# executado com privilégios de root (sudo).
+			debian.vm.provision "shell", path: "debian-default.sh", privileged: true
+			# Define o VirtualBox como provider.
+			debian.vm.provider "virtualbox" do |vb|
+		  		# Define o nome das VMs (no VirtualBox).	
+		  		vb.name = "debian0#{var_temp}"
+				# Define a quantidade de CPUs das VMs.
+				vb.cpus = "1"
+				# Define a quantidade de memória RAM das VMs.
+		  		vb.memory = "512"
+			end
+	  	end
 	end
-  end
+end
